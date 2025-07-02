@@ -31,6 +31,9 @@ jobs:
             sleep 2
           done
 
+      - name: 🐋 Run typecheck
+        run: docker compose exec -T server npm run typecheck
+
       - name: 🧪 Run Vitest inside server container
         run: docker compose exec -T server npm run test
 
