@@ -10,33 +10,21 @@ jobs:
   quality:
     runs-on: ubuntu-latest
     name: Lint & Typecheck
-    env:
-      DATABASE_PASSWORD: ${{ secrets.DATABASE_PASSWORD }}
-      CACHE_PASSWORD: ${{ secrets.CACHE_PASSWORD }}
-      CACHE_HOST: ${{ secrets.CACHE_HOST }}
-      CACHE_PORT: ${{ secrets.CACHE_PORT }}
-      COMPOSE_FILE: docker-compose.yml
 
     steps:
       - name: ⬇️ Checkout code
         uses: actions/checkout@v4
 
-      - name: 🐋 Set up Docker Compose
-        run: docker compose up -d --build
+      - name: 🟢 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
 
-      - name: ⏱ Wait for services
-        run: |
-          echo "Waiting for Postgres..."
-          until docker exec $(docker ps -qf "name=database") pg_isready -U postgres; do
-            sleep 2
-          done
+      - name: 📦 Install dependencies
+        run: npm ci
 
-      - name: 🐋 Run lint
-        run: docker compose exec -T server npm run lint
+      - name: 🧪 Typecheck
+        run: npm run typecheck
 
-      - name: 🐋 Run typecheck
-        run: docker compose exec -T server npm run typecheck
-
-      - name: 🧹 Shutdown
-        if: always()
-        run: docker compose down -v
+      - name: 🧼 Lint
+        run: npm run lint
