@@ -22,7 +22,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: 🐋 Run typecheck
-        run: docker compose exec -T server npm run typecheck
+        run: npm run typecheck
 
       - name: 🐋 Set up Docker Compose
         run: docker compose up -d --build
