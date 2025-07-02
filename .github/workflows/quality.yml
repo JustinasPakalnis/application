@@ -8,7 +8,7 @@ on:
 
 jobs:
   quality:
-    runs-on: [self-hosted, applications-test]
+    runs-on: ubuntu-latest
     name: Lint & Typecheck
     env:
       DATABASE_PASSWORD: ${{ secrets.DATABASE_PASSWORD }}
