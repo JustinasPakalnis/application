@@ -11,10 +11,10 @@ jobs:
     runs-on: ubuntu-latest
     name: Test - Fake tests
     env:
-      DATABASE_PASSWORD: ${{ secrets.DATABASE_PASSWORD }}
-      CACHE_PASSWORD: ${{ secrets.CACHE_PASSWORD }}
-      CACHE_HOST: ${{ secrets.CACHE_HOST }}
-      CACHE_PORT: ${{ secrets.CACHE_PORT }}
+      DATABASE_PASSWORD: lineage2
+      CACHE_PASSWORD: redis
+      CACHE_HOST: cache
+      CACHE_PORT: 6379
       COMPOSE_FILE: docker-compose.yml
 
     steps:
