@@ -15,7 +15,7 @@ export async function loader() {
   }
 
   console.log("Cache missing - fetching from DB");
-
+  const users = await prisma.user.findMany();
   console.log("users", users);
   await redisClient.set("users", JSON.stringify(users), "EX", 3600);
 
