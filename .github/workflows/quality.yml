@@ -1,4 +1,4 @@
-name: Remix CI with Docker Compose
+name: Remix CI with Docker Compose - Quality
 
 on:
   push:
@@ -7,7 +7,7 @@ on:
     branches: [master]
 
 jobs:
-  test:
+  quality:
     runs-on: ubuntu-latest
 
     env:
@@ -31,8 +31,11 @@ jobs:
             sleep 2
           done
 
-      - name: 🧪 Run Vitest inside server container
-        run: docker compose exec -T server npm run test
+      - name: 🐋 Run lint
+        run: docker compose exec -T server npm run lint
+
+      - name: 🐋 Run typecheck
+        run: docker compose exec -T server npm run typecheck
 
       - name: 🧹 Shutdown
         if: always()
