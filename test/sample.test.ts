@@ -11,6 +11,14 @@ describe("Database Operations", () => {
       },
     });
   });
+
+  test("DATABASE TEST", async () => {
+    const user = await prisma.user.findUnique({
+      where: { email: "john.doe@example.com" },
+    });
+    console.log(user);
+    expect(user).toBeDefined();
+  });
 });
 
 describe("Basic Math Operations", () => {
