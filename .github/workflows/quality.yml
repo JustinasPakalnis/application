@@ -1,4 +1,4 @@
-name: Remix CI with Docker Compose - Quality
+name: Quality
 
 on:
   push:

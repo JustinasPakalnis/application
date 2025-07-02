@@ -1,4 +1,4 @@
-name: Remix CI with Docker Compose
+name: Test e2e
 
 on:
   push:
