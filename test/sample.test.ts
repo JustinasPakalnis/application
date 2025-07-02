@@ -1,4 +1,15 @@
-import { expect, test, describe } from "vitest";
+import { expect, test, describe, beforeAll } from "vitest";
+import { prisma } from "~/utils/database.server";
+
+beforeAll(async () => {
+  await prisma.user.create({
+    data: {
+      email: "john.doe@example.com",
+      password: "password",
+      location: "Somewhere",
+    },
+  });
+});
 
 describe("Basic Math Operations", () => {
   test("adds 1 + 2 to equal 3", () => {
@@ -15,6 +26,14 @@ describe("Basic Math Operations", () => {
 
   test("subtracts 10 - 7 to equal 3", () => {
     expect(10 - 7).toBe(3);
+  });
+});
+
+describe("Database Operations", () => {
+  test("creates a user", () => {
+    expect(
+      prisma.user.findUnique({ where: { email: "john.doe@example.com" } })
+    ).toBeDefined();
   });
 });
 
