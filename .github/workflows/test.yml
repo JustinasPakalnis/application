@@ -31,6 +31,9 @@ jobs:
             sleep 2
           done
 
+      - name: 🧪 Generate Prisma client
+        run: docker compose exec server npx prisma generate
+
       - name: 🧪 Run Vitest inside server container
         run: docker compose exec -T server npm run test
 
