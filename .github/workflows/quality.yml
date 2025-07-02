@@ -8,7 +8,7 @@ on:
 
 jobs:
   quality:
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, applications-test]
     name: Lint & Typecheck
     env:
       DATABASE_PASSWORD: ${{ secrets.DATABASE_PASSWORD }}
@@ -21,15 +21,15 @@ jobs:
       - name: ⬇️ Checkout code
         uses: actions/checkout@v4
 
-      - name: 🐋 Set up Docker Compose
-        run: docker compose up -d --build
+      # - name: 🐋 Set up Docker Compose
+      #   run: docker compose up -d --build
 
-      - name: ⏱ Wait for services
-        run: |
-          echo "Waiting for Postgres..."
-          until docker exec $(docker ps -qf "name=database") pg_isready -U postgres; do
-            sleep 2
-          done
+      # - name: ⏱ Wait for services
+      #   run: |
+      #     echo "Waiting for Postgres..."
+      #     until docker exec $(docker ps -qf "name=database") pg_isready -U postgres; do
+      #       sleep 2
+      #     done
 
       - name: 🐋 Run lint
         run: docker compose exec -T server npm run lint
