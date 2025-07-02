@@ -1,18 +1,53 @@
-version: "3.9"
-
 services:
+  server:
+    restart: unless-stopped  
+    build: .
+    environment:
+      DATABASE_URL: "postgresql://postgres:${DATABASE_PASSWORD}@database:5432/postgres"
+      CACHE_HOST: ${CACHE_HOST}
+      CACHE_PORT: ${CACHE_PORT}
+      CACHE_PASSWORD: ${CACHE_PASSWORD}
+    ports:
+      - '3000:3000'
+    volumes:
+      - .:/app  
+      - /app/node_modules
+    depends_on:
+      - database
+    command: sh -c "npx prisma generate && npm run dev"
   database:
     image: postgres:15
-    container_name: postgres_db
-    restart: always
+    restart: unless-stopped
     ports:
-      - "51214:5432"
+      - "5432:5432"
     environment:
-      POSTGRES_USER: user
-      POSTGRES_PASSWORD: password
-      POSTGRES_DB: databaseApp
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
+      POSTGRES_DB: postgres
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - database:/var/lib/postgresql/data
+  proxy:
+    image: caddy:2.7.4
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on:
+      - server
+  cache:
+      image: redis:7.2.4
+      restart: unless-stopped
+      command: redis-server --requirepass ${CACHE_PASSWORD}
+      volumes:
+        - cache:/data
 
 volumes:
-  postgres_data:
+  database:
+  caddy_data:
+  caddy_config:
+  cache:

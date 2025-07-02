@@ -1,0 +1,39 @@
+name: Remix CI with Docker Compose
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    env:
+      DATABASE_PASSWORD: postgres
+      CACHE_PASSWORD: redis
+      CACHE_HOST: cache
+      CACHE_PORT: 6379
+      COMPOSE_FILE: docker-compose.yml
+
+    steps:
+      - name: ⬇️ Checkout code
+        uses: actions/checkout@v4
+
+      - name: 🐋 Set up Docker Compose
+        run: docker compose up -d --build
+
+      - name: ⏱ Wait for services
+        run: |
+          echo "Waiting for Postgres..."
+          until docker exec $(docker ps -qf "name=database") pg_isready -U postgres; do
+            sleep 2
+          done
+
+      - name: 🧪 Run Vitest inside server container
+        run: docker compose exec -T server npm run test
+
+      - name: 🧹 Shutdown
+        if: always()
+        run: docker compose down -v
