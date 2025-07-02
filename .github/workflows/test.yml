@@ -1,4 +1,4 @@
-name: Test e2e
+name: Test
 
 on:
   push:
@@ -9,7 +9,7 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
-
+    name: Test - Fake tests
     env:
       DATABASE_PASSWORD: postgres
       CACHE_PASSWORD: redis

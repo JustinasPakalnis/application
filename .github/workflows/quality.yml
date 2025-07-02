@@ -9,7 +9,7 @@ on:
 jobs:
   quality:
     runs-on: ubuntu-latest
-
+    name: Lint & Typecheck
     env:
       DATABASE_PASSWORD: postgres
       CACHE_PASSWORD: redis
