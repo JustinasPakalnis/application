@@ -2,7 +2,7 @@ import { expect, test, describe } from "vitest";
 import { prisma } from "~/utils/database.server";
 
 describe("Database Operations", () => {
-  test("DATABASE TEST", async () => {
+  test("DATABASE TEST create user", async () => {
     await prisma.user.create({
       data: {
         email: "john.doe@example.com",
@@ -12,11 +12,10 @@ describe("Database Operations", () => {
     });
   });
 
-  test("DATABASE TEST", async () => {
+  test("DATABASE TEST find user", async () => {
     const user = await prisma.user.findUnique({
       where: { email: "john.doe@example.com" },
     });
-    console.log(user);
     expect(user).toBeDefined();
   });
 });
