@@ -11,10 +11,6 @@ jobs:
     runs-on: ubuntu-latest
     name: Test - Fake tests
     env:
-      DATABASE_PASSWORD: lineage2
-      CACHE_PASSWORD: redis
-      CACHE_HOST: cache
-      CACHE_PORT: 6379
       COMPOSE_FILE: docker-compose.yml
 
     steps:
@@ -30,6 +26,9 @@ jobs:
           until docker exec $(docker ps -qf "name=database") pg_isready -U postgres; do
             sleep 2
           done
+
+        - name: 📁 Copy .env file
+        run: cp .env.example .env
 
       - name: 🧪 Run Vitest inside server container
         run: docker compose exec -T server npm run test

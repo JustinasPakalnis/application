@@ -1,4 +1,5 @@
 import { expect, test, describe } from "vitest";
+import { prisma } from "~/utils/database.server";
 
 describe("Basic Math Operations", () => {
   test("adds 1 + 2 to equal 3", () => {
@@ -18,21 +19,15 @@ describe("Basic Math Operations", () => {
   });
 });
 
-describe("String Operations", () => {
-  test("concatenates strings correctly", () => {
-    const firstName = "John";
-    const lastName = "Doe";
-    expect(firstName + " " + lastName).toBe("John Doe");
-  });
-
-  test("checks string length", () => {
-    const message = "Hello World";
-    expect(message.length).toBe(11);
-  });
-
-  test("converts string to uppercase", () => {
-    const text = "hello";
-    expect(text.toUpperCase()).toBe("HELLO");
+describe("Database Operations", () => {
+  test("DATABASE TEST", async () => {
+    await prisma.user.create({
+      data: {
+        email: "john.doe@example.com",
+        password: "password",
+        location: "Somewhere",
+      },
+    });
   });
 });
 
