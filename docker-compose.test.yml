@@ -17,7 +17,7 @@ services:
     volumes:
       - .:/app  
       - /app/node_modules
-    command: sh -c "npx prisma generate && npx prisma migrate deploy && npm run dev"
+    command: sh -c "echo 'Waiting for database...' && until pg_isready -U postgres -d postgres; do sleep 2; done && npx prisma generate && npx prisma migrate dev --name init && npm run dev"
   database:
     image: postgres:15
     restart: unless-stopped
