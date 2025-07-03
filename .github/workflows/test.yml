@@ -24,6 +24,13 @@ jobs:
       - name: 🐋 Set up Docker Compose
         run: docker compose up -d --build
 
+      - name: ⏱ Wait for services
+        run: |
+          echo "Waiting for Postgres..."
+          until docker exec $(docker ps -qf "name=database") pg_isready -U postgres; do
+            sleep 2
+          done
+
       - name: 🧪 Run Vitest inside server container
         run: docker compose exec -T server npm run test
 
