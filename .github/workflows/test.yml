@@ -1,4 +1,4 @@
-name: Remix CI with Docker Compose
+name: Test
 
 on:
   push:
@@ -9,12 +9,12 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
-
+    name: Test - Fake tests
     env:
-      DATABASE_PASSWORD: postgres
-      CACHE_PASSWORD: redis
-      CACHE_HOST: cache
-      CACHE_PORT: 6379
+      DATABASE_PASSWORD: ${{ secrets.DATABASE_PASSWORD }}
+      CACHE_PASSWORD: ${{ secrets.CACHE_PASSWORD }}
+      CACHE_HOST: ${{ secrets.CACHE_HOST }}
+      CACHE_PORT: ${{ secrets.CACHE_PORT }}
       COMPOSE_FILE: docker-compose.yml
 
     steps:

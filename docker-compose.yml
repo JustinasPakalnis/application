@@ -14,7 +14,7 @@ services:
       - /app/node_modules
     depends_on:
       - database
-    command: sh -c "npx prisma generate && npm run dev"
+    command: sh -c "npx prisma generate && npx prisma migrate dev --name init && npm run dev"
   database:
     image: postgres:15
     restart: unless-stopped
