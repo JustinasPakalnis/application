@@ -15,7 +15,7 @@ jobs:
       CACHE_PASSWORD: ${{ secrets.CACHE_PASSWORD }}
       CACHE_HOST: ${{ secrets.CACHE_HOST }}
       CACHE_PORT: ${{ secrets.CACHE_PORT }}
-      COMPOSE_FILE: docker-compose.yml
+      COMPOSE_FILE: docker-compose.test.yml
 
     steps:
       - name: ⬇️ Checkout code
