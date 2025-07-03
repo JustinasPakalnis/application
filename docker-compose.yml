@@ -5,6 +5,8 @@ services:
     depends_on:
       database:
         condition: service_healthy
+      cache:
+        condition: service_started
     environment:
       DATABASE_URL: "postgresql://postgres:${DATABASE_PASSWORD}@database:5432/postgres"
       CACHE_HOST: ${CACHE_HOST}
@@ -15,12 +17,7 @@ services:
     volumes:
       - .:/app  
       - /app/node_modules
-    command: sh -c "
-      until pg_isready -h database -U postgres; do echo waiting for db; sleep 2; done &&
-      npx prisma generate &&
-      npx prisma migrate dev --name init &&
-      npm run dev
-      "
+    command: sh -c "npx prisma generate && npx prisma migrate dev --name init && npm run dev"
   database:
     image: postgres:15
     restart: unless-stopped
