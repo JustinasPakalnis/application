@@ -3,7 +3,7 @@ services:
     restart: unless-stopped  
     build: .
     depends_on:
-      db:
+      database:
         condition: service_healthy
         restart: true
     environment:
