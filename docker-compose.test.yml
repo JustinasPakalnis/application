@@ -3,43 +3,27 @@ services:
     extends:
       file: docker-compose.common.yml
       service: server
+    ports:
+      - '3000:3000'
     command: sh -c "npx prisma generate && npx prisma migrate dev --name init && npm run dev" 
   database:
-    image: postgres:15
-    restart: unless-stopped
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres -d postgres"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
-      start_period: 10s
+    extends:
+      file: docker-compose.common.yml
+      service: database
     ports:
       - "5432:5432"
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
-      POSTGRES_DB: postgres
-    volumes:
-      - database:/var/lib/postgresql/data
   proxy:
-    image: caddy:2.7.4
-    restart: unless-stopped
+    extends:
+      file: docker-compose.common.yml
+      service: proxy
     ports:
       - "80:80"
       - "443:443"
       - "443:443/udp"
-    volumes:
-      - ./Caddyfile:/etc/caddy/Caddyfile
-      - caddy_data:/data
-      - caddy_config:/config
-    depends_on:
-      - server
   cache:
-      image: redis:7.2.4
-      restart: unless-stopped
-      command: redis-server --requirepass ${CACHE_PASSWORD}
-      volumes:
-        - cache:/data
+    extends:
+      file: docker-compose.common.yml
+      service: cache
 
 volumes:
   database:

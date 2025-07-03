@@ -12,8 +12,6 @@ services:
       CACHE_HOST: ${CACHE_HOST}
       CACHE_PORT: ${CACHE_PORT}
       CACHE_PASSWORD: ${CACHE_PASSWORD}
-    ports:
-      - '3000:3000'
     volumes:
       - .:/app  
       - /app/node_modules
@@ -26,8 +24,6 @@ services:
       timeout: 5s
       retries: 5
       start_period: 10s
-    ports:
-      - "5432:5432"
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
@@ -37,10 +33,6 @@ services:
   proxy:
     image: caddy:2.7.4
     restart: unless-stopped
-    ports:
-      - "80:80"
-      - "443:443"
-      - "443:443/udp"
     volumes:
       - ./Caddyfile:/etc/caddy/Caddyfile
       - caddy_data:/data
