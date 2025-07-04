@@ -9,11 +9,20 @@ on:
 jobs:
   build_and_publish:
     runs-on: ubuntu-latest
+    # steps:
+    # - uses: actions/checkout@v3
+    # - name: 🐋 Login to GHCR
+    #   run: docker login --username justinaspakalnis --password ${{ secrets.GH_PAT }} ghcr.io
+    # - name: 🐋 Build image
+    #   run: docker build . --tag ghcr.io/justinaspakalnis/devops-learning:initial
+    # - name: 🐋 Push image
+    #   run: docker push ghcr.io/justinaspakalnis/devops-learning:initial
     steps:
       - uses: actions/checkout@v3
-      - name: 🐋 Login to GHCR
-        run: docker login --username justinaspakalnis --password ${{ secrets.GH_PAT }} ghcr.io
-      - name: 🐋 Build image
-        run: docker build . --tag ghcr.io/justinaspakalnis/devops-learning:initial
-      - name: 🐋 Push image
-        run: docker push ghcr.io/justinaspakalnis/devops-learning:initial
+      - name: Publish to Registry
+        uses: elgohr/Publish-Docker-Github-Action@v5
+        with:
+          name: image/repo
+          username: ${{ github.actor }}
+          password: ${{ secrets.GH_PAT }}
+          registry: ghcr.io
