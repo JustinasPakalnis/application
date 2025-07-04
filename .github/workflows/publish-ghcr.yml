@@ -11,8 +11,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - name: Build and Push image to GHCR
-        run: |
-          docker login --username justinaspakalnis --password ${{ secrets.GH_PAT }} ghcr.io
-          docker build . --tag ghcr.io/justinaspakalnis/devops-learning:initial
-          docker push ghcr.io/justinaspakalnis/devops-learning:initial
+      - name: 🐋 Login to GHCR
+        run: docker login --username justinaspakalnis --password ${{ secrets.GH_PAT }} ghcr.io
+      - name: 🐋 Build image
+        run: docker build . --tag ghcr.io/justinaspakalnis/devops-learning:initial
+      - name: 🐋 Push image
+        run: docker push ghcr.io/justinaspakalnis/devops-learning:initial
