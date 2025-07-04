@@ -22,7 +22,8 @@ jobs:
       - name: Publish to Registry
         uses: elgohr/Publish-Docker-Github-Action@v5
         with:
-          name: image/repo
+          name: justinaspakalnis/devops-learning
           username: ${{ github.actor }}
           password: ${{ secrets.GH_PAT }}
           registry: ghcr.io
+          snapshot: true
