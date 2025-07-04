@@ -2,6 +2,12 @@ services:
   server:
     restart: unless-stopped  
     build: .
+    healthcheck:
+          test: ["CMD-SHELL", "curl --fail http://localhost:3000/ || exit 1"]
+          interval: 10s
+          timeout: 5s
+          retries: 5
+          start_period: 10s
     depends_on:
       database:
         condition: service_healthy
@@ -23,7 +29,7 @@ services:
       interval: 5s
       timeout: 5s
       retries: 5
-      start_period: 10s
+      start_period: 5s
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
@@ -42,6 +48,12 @@ services:
   cache:
       image: redis:7.2.4
       restart: unless-stopped
+      healthcheck:
+        test: [ "CMD", "redis-cli", "--raw", "incr", "ping" ]
+        interval: 5s
+        timeout: 5s
+        retries: 5
+        start_period: 5s
       command: redis-server --requirepass ${CACHE_PASSWORD}
       volumes:
         - cache:/data
