@@ -32,7 +32,3 @@ jobs:
 
       - name: 🧪 Run Vitest inside server container
         run: docker compose exec -T server npm run test
-
-      - name: 🧹 Shutdown
-        if: always()
-        run: docker compose down -v
