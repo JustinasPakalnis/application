@@ -14,5 +14,5 @@ jobs:
       - name: Build and Push image to GHCR
         run: |
           docker login --username justinaspakalnis --password ${{ secrets.GH_PAT }} ghcr.io
-
           docker build . --tag ghcr.io/justinaspakalnis/devops-learning:initial
+          docker push ghcr.io/justinaspakalnis/devops-learning:initial
