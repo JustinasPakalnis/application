@@ -1,0 +1,16 @@
+name: Docker image CI for GHCR
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build_and_publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        run: |
+          docker login --username justinaspakalnis --password ${{ secrets.GH_PAT }} ghcr.io
+          docker build . --tag ghcr.io/justinaspakalnis/devops-learning:initial
