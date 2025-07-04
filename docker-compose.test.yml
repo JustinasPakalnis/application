@@ -5,7 +5,7 @@ services:
       service: server
     ports:
       - '3000:3000'
-    command: sh -c "npm run start" 
+    command: sh -c "npx prisma generate && npm run dev" 
   database:
     extends:
       file: docker-compose.common.yml

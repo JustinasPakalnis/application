@@ -24,9 +24,6 @@ jobs:
       - name: 🐋 Set up Docker Compose
         run: docker compose up -d --build
 
-      - name: 🧪 Generate Prisma client
-        run: docker compose exec -T server npx prisma generate
-
       - name: 🛠 Apply Prisma migrations
         run: docker compose exec -T server npx prisma migrate deploy
 
