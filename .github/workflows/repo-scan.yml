@@ -8,18 +8,25 @@ permissions:
   security-events: write
   contents: read
 jobs:
-  build:
+  Trivy-Scan:
     name: Repository scan for vulnerabilities
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Run Trivy vulnerability scanner in repo mode
-        uses: aquasecurity/trivy-action@0.28.0
+      - name: Run Trivy vulnerability scanner in fs mode
+        uses: anandg112/trivy-action@feat/add-skip-dirs-option
         with:
           scan-type: "fs"
           ignore-unfixed: true
-          format: "table"
-          output: "trivy-results.sarif"
+          format: "template"
+          template: "@/contrib/sarif.tpl"
+          output: "trivy-results-fs.sarif"
           severity: "CRITICAL"
+          skip-dirs: "ignored-dir"
+
+      - name: DEBUG Upload Trivy scan results to GitHub Security tab
+        uses: github/codeql-action/upload-sarif@v1
+        with:
+          sarif_file: "debug-trivy-results.sarif"
