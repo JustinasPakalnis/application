@@ -15,7 +15,7 @@ jobs:
       CACHE_PASSWORD: ${{ secrets.CACHE_PASSWORD }}
       CACHE_HOST: ${{ secrets.CACHE_HOST }}
       CACHE_PORT: ${{ secrets.CACHE_PORT }}
-      COMPOSE_FILE: docker-compose.yml
+      COMPOSE_FILE: docker-compose.test.yml
 
     steps:
       - name: ⬇️ Checkout code
@@ -24,16 +24,8 @@ jobs:
       - name: 🐋 Set up Docker Compose
         run: docker compose up -d --build
 
-      - name: ⏱ Wait for services
-        run: |
-          echo "Waiting for Postgres..."
-          until docker exec $(docker ps -qf "name=database") pg_isready -U postgres; do
-            sleep 2
-          done
+      - name: 🛠 Apply Prisma migrations
+        run: docker compose exec -T server npx prisma migrate deploy
 
       - name: 🧪 Run Vitest inside server container
         run: docker compose exec -T server npm run test
-
-      - name: 🧹 Shutdown
-        if: always()
-        run: docker compose down -v
