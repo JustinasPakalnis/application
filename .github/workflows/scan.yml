@@ -1,4 +1,4 @@
-name: Build and scan container
+name: Build and scan dependencies and container
 on:
   push:
     branches: [master]
@@ -7,7 +7,7 @@ on:
 
 jobs:
   build:
-    name: Build and scan container
+    name: Build and scan dependencies and container
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
