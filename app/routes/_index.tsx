@@ -9,6 +9,9 @@ export const meta: MetaFunction = () => {
 export async function loader() {
   const cachedUsers = await redisClient.get("users");
 
+  const realTimeUsers = await prisma.user.findMany();
+  console.log("realTimeUsers", realTimeUsers);
+
   if (cachedUsers) {
     console.log("Cache exists", JSON.parse(cachedUsers));
     return json({ users: JSON.parse(cachedUsers) });
@@ -17,7 +20,7 @@ export async function loader() {
   console.log("Cache missing - fetching from DB");
   const users = await prisma.user.findMany();
   console.log("users", users);
-  await redisClient.set("users", JSON.stringify(users), "EX", 3600);
+  await redisClient.set("users", JSON.stringify(users), "EX", 50);
 
   return json({ users });
 }
