@@ -18,7 +18,6 @@ export const action = async ({ request }: { request: Request }) => {
   const password = formData.get("password");
   const location = formData.get("location");
 
-  // Basic validation
   if (
     typeof email !== "string" ||
     typeof password !== "string" ||
@@ -27,7 +26,6 @@ export const action = async ({ request }: { request: Request }) => {
     return json({ error: "Invalid form data" }, { status: 400 });
   }
 
-  // Check if user already exists
   const existingUser = await prisma.user.findUnique({
     where: { email },
   });
