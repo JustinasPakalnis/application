@@ -70,9 +70,9 @@ services:
     ports:
       - 3009:3000
     volumes:
-    - grafana_data:/var/lib/grafana
+      - grafana_data:/var/lib/grafana
     environment:
-    - GF_SECURITY_ADMIN_PASSWORD=admin
+      - GF_SECURITY_ADMIN_PASSWORD=admin
 
 volumes:
   database:
