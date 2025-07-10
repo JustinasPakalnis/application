@@ -1,7 +1,7 @@
 import { expect, test, describe } from "vitest";
 // import { prisma } from "~/utils/database.server";
 
-describe("Database Operations", () => {
+// describe("Database Operations", () => {
 //   test("DATABASE TEST create user", async () => {
 //     await prisma.user.create({
 //       data: {
