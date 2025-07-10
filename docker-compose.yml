@@ -3,12 +3,12 @@ services:
     extends:
       file: docker-compose.common.yml
       service: server
-    ports:
-      - '3000:3000'
-    command: sh -c "npx prisma generate && npx prisma migrate dev --name init && npm run dev"
+    environment:
+      NODE_ENV: development
+    command: sh -c "npx prisma migrate dev --name init && npm run dev"
     volumes:
       - .:/app  
-      - /app/node_modules  
+      - /app/node_modules
   database:
     extends:
       file: docker-compose.common.yml
