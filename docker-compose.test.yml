@@ -9,6 +9,7 @@ services:
     volumes:
       - .:/app  
       - /app/node_modules
+      - /app/build
   database:
     extends:
       file: docker-compose.common.yml
