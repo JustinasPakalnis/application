@@ -24,7 +24,4 @@ jobs:
         run: docker compose up -d --build
 
       - name: 🛠 Apply Prisma migrations
-        run: docker compose exec -T server npx prisma migrate deploy
-
-      - name: 🧪 Run Vitest inside server container
-        run: docker compose exec -T server npm run test
+        run: docker compose exec -T server npm run ci:test
