@@ -3,8 +3,6 @@ services:
     extends:
       file: docker-compose.common.yml
       service: server
-    environment:
-      NODE_ENV: production
     command: sh -c "npx prisma migrate deploy && npm run start" 
   database:
     extends:
