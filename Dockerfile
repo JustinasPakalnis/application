@@ -3,9 +3,6 @@ FROM node:20.9.0-alpine as builder
 WORKDIR /app
 COPY package*.json ./
 
-ARG NODE_ENV=development
-ENV NODE_ENV=$NODE_ENV
-
 RUN npm install
 COPY . .
 RUN npx prisma generate
@@ -19,9 +16,9 @@ COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/build ./build
 COPY --from=builder /app/package.json ./package.json
 COPY --from=builder /app/prisma ./prisma
-ENV NODE_ENV=production
 RUN apk add --no-cache curl
 
+ENV NODE_ENV=production
 EXPOSE 3000
 
 CMD ["node", "build/server/index.js"]
