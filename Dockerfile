@@ -2,6 +2,10 @@ FROM node:20.9.0-alpine as builder
 
 WORKDIR /app
 COPY package*.json ./
+
+ARG NODE_ENV=development
+ENV NODE_ENV=$NODE_ENV
+
 RUN npm install
 COPY . .
 RUN npx prisma generate
