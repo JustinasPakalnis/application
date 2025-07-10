@@ -9,7 +9,6 @@ RUN npx prisma generate
 RUN npm run build
 
 FROM node:20.9.0-alpine
-
 WORKDIR /app
 
 COPY --from=builder /app/node_modules ./node_modules
