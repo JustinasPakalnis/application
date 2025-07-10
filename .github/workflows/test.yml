@@ -25,6 +25,8 @@ jobs:
 
       # - name: 🛠 Apply Prisma migrations
       #   run: docker compose exec -T server npx prisma migrate deploy
+      - name: 🕵️ Check test files inside container
+        run: docker compose exec -T server find . -name "*.test.ts"
 
       - name: 🧪 Run Vitest inside server container
         run: docker compose exec -T server npm run test
