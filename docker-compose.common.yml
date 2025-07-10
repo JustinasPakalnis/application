@@ -1,7 +1,6 @@
 services:
   server:
     restart: unless-stopped  
-    build: .
     healthcheck:
           test: ["CMD-SHELL", "curl --fail http://localhost:3000/ || exit 1"]
           interval: 10s
