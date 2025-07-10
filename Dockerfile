@@ -11,6 +11,8 @@ FROM node:20.9.0-alpine
 
 WORKDIR /app
 
+ARG IS_CI=false
+COPY --from=builder /app/test ./test
 COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/build ./build
 COPY --from=builder /app/package.json ./package.json
