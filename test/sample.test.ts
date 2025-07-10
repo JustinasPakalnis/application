@@ -1,5 +1,5 @@
 import { expect, test, describe } from "vitest";
-import { prisma } from "~/utils/database.server";
+import { prisma } from "../app/utils/database.server";
 
 describe("Database Operations", () => {
   test("DATABASE TEST create user", async () => {

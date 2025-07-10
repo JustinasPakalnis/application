@@ -10,7 +10,8 @@
     "start": "remix-serve ./build/server/index.js",
     "start:app": "docker-compose up --build",
     "typecheck": "tsc",
-    "test": "vitest"
+    "test": "vitest",
+    "ci:test": "npx prisma migrate deploy && npm run test"
   },
   "dependencies": {
     "@prisma/client": "^6.10.1",
@@ -48,8 +49,5 @@
   },
   "engines": {
     "node": ">=20.0.0"
-  },
-  "overrides": {
-    "esbuild": "^0.25.5"
   }
 }
