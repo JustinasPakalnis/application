@@ -8,8 +8,8 @@ services:
       NODE_ENV: development
     volumes:
       - .:/app
-      - /app/node_modules
-      - /app/build
+      - node_modules:/app/node_modules
+      - build:/app/build
   database:
     extends:
       file: docker-compose.common.yml
@@ -34,3 +34,5 @@ volumes:
   caddy_data:
   caddy_config:
   cache:
+  node_modules:
+  build:
