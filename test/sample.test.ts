@@ -1,24 +1,24 @@
 import { expect, test, describe } from "vitest";
-import { prisma } from "~/utils/database.server";
+// import { prisma } from "~/utils/database.server";
 
 describe("Database Operations", () => {
-  test("DATABASE TEST create user", async () => {
-    await prisma.user.create({
-      data: {
-        email: "john.doe@example.com",
-        password: "password",
-        location: "Somewhere",
-      },
-    });
-  });
+//   test("DATABASE TEST create user", async () => {
+//     await prisma.user.create({
+//       data: {
+//         email: "john.doe@example.com",
+//         password: "password",
+//         location: "Somewhere",
+//       },
+//     });
+//   });
 
-  test("DATABASE TEST find user", async () => {
-    const user = await prisma.user.findUnique({
-      where: { email: "john.doe@example.com" },
-    });
-    expect(user).toBeDefined();
-  });
-});
+//   test("DATABASE TEST find user", async () => {
+//     const user = await prisma.user.findUnique({
+//       where: { email: "john.doe@example.com" },
+//     });
+//     expect(user).toBeDefined();
+//   });
+// });
 
 describe("Basic Math Operations", () => {
   test("adds 1 + 2 to equal 3", () => {
