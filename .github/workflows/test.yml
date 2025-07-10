@@ -22,8 +22,7 @@ jobs:
 
       - name: 🐋 Set up Docker Compose
         run: docker compose up -d --build
-      - name: Install dependencies inside container (with devDeps)
-        run: docker compose exec -T server npm install --include=dev
+
       # - name: 🛠 Apply Prisma migrations
       #   run: docker compose exec -T server npx prisma migrate deploy
       - name: 🕵️ Check test files inside container

@@ -7,7 +7,7 @@ services:
     environment:
       NODE_ENV: development
     volumes:
-      - .:/app  
+      - ./test:/app/test  
   database:
     extends:
       file: docker-compose.common.yml
