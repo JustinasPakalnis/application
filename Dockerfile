@@ -1,12 +1,14 @@
 FROM node:20.9.0-alpine AS builder
 
+ARG DATABASE_URL
+ENV DATABASE_URL=$DATABASE_URL
+
 WORKDIR /app
 COPY package*.json ./
 
 RUN npm install
 COPY . .
 RUN npx prisma generate
-RUN npx prisma migrate deploy
 RUN npm run build
 
 FROM node:20.9.0-alpine
@@ -21,4 +23,4 @@ RUN apk add --no-cache curl
 ENV NODE_ENV=production
 EXPOSE 3000
 
-CMD ["npm", "run", "start"]
+CMD ["npm", "run", "deploy"]
