@@ -6,6 +6,7 @@ COPY package*.json ./
 RUN npm install
 COPY . .
 RUN npx prisma generate
+RUN npx prisma migrate deploy
 RUN npm run build
 
 FROM node:20.9.0-alpine
