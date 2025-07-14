@@ -8,7 +8,6 @@ export const meta: MetaFunction = () => {
 
 export const loader = async () => {
   const users = await prisma.user.findMany();
-  console.log("users backend", users);
   return { users };
 };
 
