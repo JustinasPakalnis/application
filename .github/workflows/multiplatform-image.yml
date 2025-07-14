@@ -27,14 +27,12 @@ jobs:
           images: ${{ vars.DOCKERHUB_USERNAME }}/application
 
       - name: Build and push image
-        id: build
         uses: docker/build-push-action@v6
         with:
           sbom: true
           push: true
           platforms: linux/amd64,linux/arm64
           tags: ${{ steps.meta.outputs.tags }}
-          outputs: type=image,name=${{ vars.DOCKERHUB_USERNAME }}/application,push=true
 
       - name: Setup cosign
         uses: sigstore/cosign-installer@v3
@@ -44,7 +42,7 @@ jobs:
 
       - name: Sign container image
         run: |
-          cosign sign --key cosign.key \
-          ${{ steps.build.outputs.digest }}
+          cosign sign --yes --key cosign.key \
+            ${{ steps.meta.outputs.tags }}
         env:
           COSIGN_PASSWORD: ""
