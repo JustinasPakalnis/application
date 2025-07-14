@@ -34,7 +34,7 @@ jobs:
           platforms: linux/amd64,linux/arm64
           tags: ${{ steps.meta.outputs.tags }}
 
-      - name: Install cosign
+      - name: Setup cosign
         uses: sigstore/cosign-installer@v3
 
       - name: Write signing key to disk (only needed for `cosign sign --key`)
@@ -43,6 +43,6 @@ jobs:
       - name: Sign container image
         run: |
           cosign sign --key cosign.key \
-            ${{ vars.DOCKERHUB_USERNAME }}/application:${{ steps.meta.outputs.tags }}
+            ${{ steps.meta.outputs.tags }}
         env:
           COSIGN_PASSWORD: ""
