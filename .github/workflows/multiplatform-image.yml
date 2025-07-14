@@ -43,7 +43,7 @@ jobs:
 
       - name: Sign container image
         run: |
-          cosign sign --yes --key cosign.key \
+          cosign sign --key cosign.key \
           ${{ vars.DOCKERHUB_USERNAME }}/application@${{ steps.build.outputs.digest }}
         env:
           COSIGN_PASSWORD: ""
