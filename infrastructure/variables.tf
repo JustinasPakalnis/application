@@ -26,3 +26,8 @@ variable "docker_image_url" {
   description = "GCR or Artifact Registry image"
   type        = string
 }
+
+variable "credentials_path" {
+  description = "Path to the service account key file"
+  type        = string
+}
