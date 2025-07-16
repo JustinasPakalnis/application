@@ -4,7 +4,7 @@ provider "google" {
 }
 
 resource "google_sql_database_instance" "remix-db" {
-  name             = var.project_id
+  name             = "es-${var.project_id}"
   region           = var.region
   database_version = "POSTGRES_15"
 
