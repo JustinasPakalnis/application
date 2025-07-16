@@ -32,7 +32,6 @@ jobs:
           cd infrastructure/workflow-deploy
           echo "🔧 Starting Terraform init"
           terraform init
-
           echo "📦 Running terraform plan"
           terraform plan -input=false \
             -var="docker_image_url=justinaspakalnis/application:pr-6" \
