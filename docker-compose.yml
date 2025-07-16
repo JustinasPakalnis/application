@@ -88,7 +88,10 @@ services:
     ports:
       - 3009:3000
     volumes:
-      - grafana_data:/var/lib/grafana
+      - grafana:/var/lib/grafana
+      - ./monitoring/dashboards:/etc/grafana/provisioning/dashboards
+      - ./monitoring/dashboards.yml:/etc/grafana/provisioning/dashboards/default.yaml
+      - ./monitoring/datasources.yml:/etc/grafana/provisioning/datasources/default.yaml
     environment:
       - GF_SECURITY_ADMIN_PASSWORD=admin
 
@@ -98,4 +101,4 @@ volumes:
   caddy_config:
   cache:
   prometheus_data: {}
-  grafana_data: {}
+  grafana: {}
