@@ -1,6 +1,7 @@
 provider "google" {
-  project = var.project_id
-  region  = "europe-west1"
+  credentials = file(var.credentials_path)
+  project     = var.project_id
+  region      = "europe-west1"
 }
 
 resource "google_sql_user" "preview_user" {
@@ -14,9 +15,9 @@ resource "google_sql_database" "preview_db" {
   instance = "postgres-db"
 }
 resource "google_cloud_run_v2_service" "preview" {
-  name     = "preview-app-pr-${var.pr_number}"
-  location = var.region
-
+  name                = "preview-app-pr-${var.pr_number}"
+  location            = var.region
+  deletion_protection = false
   template {
     volumes {
       name = "cloudsql"
