@@ -4,7 +4,7 @@ provider "google" {
 }
 
 resource "google_sql_database_instance" "remix-db" {
-  name             = "es-${var.project_id}"
+  name             = "preview-db"
   region           = var.region
   database_version = "POSTGRES_15"
 
@@ -21,13 +21,13 @@ resource "google_sql_database_instance" "remix-db" {
 }
 
 resource "google_sql_user" "app_user" {
-  name     = "user-${var.project_id}"
+  name     = "preview-user"
   instance = google_sql_database_instance.remix-db.name
   password = var.database_password
 }
 
 resource "google_sql_database" "app_db" {
-  name     = "db-${var.project_id}"
+  name     = "preview-db"
   instance = google_sql_database_instance.remix-db.name
 }
 
