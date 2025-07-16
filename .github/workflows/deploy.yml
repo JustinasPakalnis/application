@@ -8,11 +8,13 @@ on:
 
 jobs:
   deploy:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+
       - name: Debug event payload
         run: echo '${{ toJson(github.event.workflow_run) }}'
 
