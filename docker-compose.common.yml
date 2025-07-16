@@ -35,6 +35,7 @@ services:
       POSTGRES_DB: postgres
     volumes:
       - database:/var/lib/postgresql/data
+    command: postgres -c shared_preload_libraries=pg_stat_statements
   proxy:
     image: caddy:2.7.4
     restart: unless-stopped

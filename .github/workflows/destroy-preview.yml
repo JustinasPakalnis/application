@@ -1,0 +1,36 @@
+name: Destroy PR Preview
+
+on:
+  pull_request:
+    types: [closed]
+
+jobs:
+  destroy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Authenticate with GCP
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: ${{ secrets.GCP_CREDENTIALS }}
+          export_environment_variables: true
+
+      - name: Set up Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.6.6
+
+      - name: Destroy Preview Infrastructure
+        run: |
+          cd infrastructure/workflow-deploy
+
+          terraform init
+          terraform destroy -auto-approve -input=false \
+            -var="docker_image_url=justinaspakalnis/application:pr-${{ github.event.pull_request.number }}" \
+            -var="region=europe-west1" \
+            -var="database_password=${{ secrets.DATABASE_PASSWORD }}" \
+            -var="db_ip=${{ secrets.AUTHORIZED_IP }}" \
+            -var="pr_number=${{ github.event.pull_request.number }}"

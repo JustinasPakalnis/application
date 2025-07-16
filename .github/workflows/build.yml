@@ -25,11 +25,29 @@ jobs:
         uses: docker/metadata-action@v5
         with:
           images: ${{ vars.DOCKERHUB_USERNAME }}/application
+          tags: |
+            type=ref,event=branch
+            type=sha
+            type=raw,value=pr-${{ github.event.pull_request.number }}
 
       - name: Build and push image
+        id: build
         uses: docker/build-push-action@v6
         with:
           sbom: true
           push: true
           platforms: linux/amd64,linux/arm64
           tags: ${{ steps.meta.outputs.tags }}
+
+      - name: Setup cosign
+        uses: sigstore/cosign-installer@v3
+
+      - name: Write signing key to disk
+        run: echo "${{ secrets.SIGNING_SECRET }}" > cosign.key
+
+      - name: Sign container image
+        run: |
+          cosign sign --yes --key cosign.key \
+          ${{ vars.DOCKERHUB_USERNAME }}/application@${{ steps.build.outputs.digest }}
+        env:
+          COSIGN_PASSWORD: ""

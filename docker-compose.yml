@@ -67,13 +67,31 @@ services:
       - '--path.rootfs=/rootfs'
       - '--path.sysfs=/host/sys'
       - '--collector.filesystem.mount-points-exclude=^/(sys|proc|dev|host|etc)($$|/)'
+  postgres-exporter:
+    image: prometheuscommunity/postgres-exporter:v0.17.1
+    restart: always
+    command:
+      - --collector.postmaster
+      - --collector.stat_statements
+    environment:
+      DATA_SOURCE_URI: ${MONITOR_DATABASE_URI:-database:5432/postgres?sslmode=disable}
+      DATA_SOURCE_USER: postgres
+      DATA_SOURCE_PASS: ${DATABASE_PASSWORD}
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus_data:/prometheus
+    ports:
+      - "9187:9187"
   grafana:
     image: grafana/grafana:10.4.3
     restart: always
     ports:
       - 3009:3000
     volumes:
-      - grafana_data:/var/lib/grafana
+      - grafana:/var/lib/grafana
+      - ./monitoring/dashboards:/etc/grafana/provisioning/dashboards
+      - ./monitoring/dashboards.yml:/etc/grafana/provisioning/dashboards/default.yaml
+      - ./monitoring/datasources.yml:/etc/grafana/provisioning/datasources/default.yaml
     environment:
       - GF_SECURITY_ADMIN_PASSWORD=admin
 
@@ -83,4 +101,4 @@ volumes:
   caddy_config:
   cache:
   prometheus_data: {}
-  grafana_data: {}
+  grafana: {}

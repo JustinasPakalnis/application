@@ -11,7 +11,8 @@
     "start:app": "docker-compose up --build",
     "typecheck": "tsc",
     "test": "vitest",
-    "ci:test": "npx prisma migrate deploy && npm run test"
+    "ci:test": "npx prisma migrate deploy && npm run test",
+    "deploy": "npx prisma migrate deploy && npm run start"
   },
   "dependencies": {
     "@prisma/client": "^6.10.1",
