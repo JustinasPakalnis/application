@@ -1,10 +1,11 @@
 provider "google" {
-  project = var.project_id
-  region  = var.region
+  credentials = file(var.credentials_path)
+  project     = var.project_id
+  region      = var.region
 }
 
-resource "google_sql_database_instance" "preview-db" {
-  name             = "preview-db"
+resource "google_sql_database_instance" "postgres-db" {
+  name             = "postgres-db"
   region           = var.region
   database_version = "POSTGRES_15"
 
@@ -13,34 +14,34 @@ resource "google_sql_database_instance" "preview-db" {
     ip_configuration {
       ipv4_enabled = true
       authorized_networks {
-        name  = "JUSTINAS!"
+        name  = "all"
         value = var.db_ip
       }
     }
   }
 }
 
-resource "google_sql_user" "preview-user" {
-  name     = "preview-user"
-  instance = google_sql_database_instance.preview-db.name
+resource "google_sql_user" "app_user" {
+  name     = "remixuser"
+  instance = google_sql_database_instance.postgres-db.name
   password = var.database_password
 }
 
-resource "google_sql_database" "preview-db" {
-  name     = "preview-db"
-  instance = google_sql_database_instance.preview-db.name
+resource "google_sql_database" "app_db" {
+  name     = "remixdb"
+  instance = google_sql_database_instance.postgres-db.name
 }
 
 
 resource "google_cloud_run_v2_service" "remix" {
-  name     = "app-${var.project_id}"
+  name     = "remix-app"
   location = var.region
 
   template {
     volumes {
       name = "cloudsql"
       cloud_sql_instance {
-        instances = [google_sql_database_instance.preview-db.connection_name]
+        instances = [google_sql_database_instance.postgres-db.connection_name]
       }
     }
     containers {
@@ -48,7 +49,7 @@ resource "google_cloud_run_v2_service" "remix" {
 
       env {
         name  = "DATABASE_URL"
-        value = "postgresql://preview-user:${var.database_password}@localhost:5432/preview-db?host=/cloudsql/${google_sql_database_instance.preview-db.connection_name}"
+        value = "postgresql://remixuser:${var.database_password}@localhost:5432/remixdb?host=/cloudsql/${google_sql_database_instance.postgres-db.connection_name}"
       }
       resources {
         cpu_idle = true
@@ -62,20 +63,6 @@ resource "google_cloud_run_v2_service" "remix" {
     type    = "TRAFFIC_TARGET_ALLOCATION_TYPE_LATEST"
   }
 }
-
-# resource "google_cloud_run_domain_mapping" "default" {
-#   location = var.region
-#   name     = "jpdev.lt"
-
-#   metadata {
-#     namespace = var.project_id
-#   }
-
-#   spec {
-#     route_name = google_cloud_run_v2_service.remix.name
-#   }
-# }
-
 data "google_cloud_run_v2_service" "remix" {
   name     = google_cloud_run_v2_service.remix.name
   location = google_cloud_run_v2_service.remix.location

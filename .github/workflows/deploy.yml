@@ -33,7 +33,7 @@ jobs:
 
       - name: Terraform Init & Apply
         run: |
-          cd infrastructure/deploy
+          cd infrastructure/workflow-deploy
 
           echo "🔧 Starting Terraform init"
           terraform init
@@ -42,14 +42,14 @@ jobs:
           terraform plan -input=false \
             -var="docker_image_url=${{ vars.DOCKERHUB_USERNAME }}/application:pr-6" \
             -var="region=europe-west1" \
-            -var="project_id=deploy-pr-${{ github.event.pull_request.number }}" \
             -var="database_password=${{ secrets.DATABASE_PASSWORD }}" \
-            -var="db_ip=${{ secrets.AUTHORIZED_IP }}"
+            -var="db_ip=${{ secrets.AUTHORIZED_IP }}" \
+            -var="pr_number=${{ github.event.pull_request.number }}"
 
           echo "🚀 Applying Terraform"
           terraform apply -auto-approve -input=false \
             -var="docker_image_url=${{ vars.DOCKERHUB_USERNAME }}/application:pr-6" \
             -var="region=europe-west1" \
-            -var="project_id=deploy-pr-${{ github.event.pull_request.number }}" \
             -var="database_password=${{ secrets.DATABASE_PASSWORD }}" \
-            -var="db_ip=${{ secrets.AUTHORIZED_IP }}"
+            -var="db_ip=${{ secrets.AUTHORIZED_IP }}" \
+            -var="pr_number=${{ github.event.pull_request.number }}"
