@@ -28,7 +28,6 @@ jobs:
       - name: Terraform Init & Apply
         run: |
           cd infrastructure/workflow-deploy
-
           echo "🔧 Starting Terraform init"
           terraform init
 
