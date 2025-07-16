@@ -2,7 +2,7 @@ name: Deploy PR Preview
 
 on:
   workflow_run:
-    workflows: ["multiplatform-image"]
+    workflows: ["Build multiplatform image"]
     types:
       - completed
 
@@ -13,6 +13,9 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+
+      - name: Debug event payload
+        run: echo '${{ toJson(github.event.workflow_run) }}'
 
       - name: Authenticate with GCP
         uses: google-github-actions/auth@v2
