@@ -1,0 +1,25 @@
+name: Deploy PR Preview
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Authenticate with GCP
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: ${{ secrets.GCP_CREDENTIALS }}
+
+      - name: Terraform Init & Apply
+        run: |
+          cd infrastructure/
+          terraform init
+          terraform apply -auto-approve \
+            -var="docker_image_url=${{ vars.DOCKERHUB_USERNAME }}/application:pr-${{ github.event.pull_request.number }}"
