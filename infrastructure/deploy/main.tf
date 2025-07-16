@@ -3,7 +3,7 @@ provider "google" {
   region  = var.region
 }
 
-resource "google_sql_database_instance" "remix-db" {
+resource "google_sql_database_instance" "preview-db" {
   name             = "preview-db"
   region           = var.region
   database_version = "POSTGRES_15"
@@ -20,15 +20,15 @@ resource "google_sql_database_instance" "remix-db" {
   }
 }
 
-resource "google_sql_user" "app_user" {
+resource "google_sql_user" "preview-user" {
   name     = "preview-user"
-  instance = google_sql_database_instance.remix-db.name
+  instance = google_sql_database_instance.preview-db.name
   password = var.database_password
 }
 
-resource "google_sql_database" "app_db" {
+resource "google_sql_database" "preview-db" {
   name     = "preview-db"
-  instance = google_sql_database_instance.remix-db.name
+  instance = google_sql_database_instance.preview-db.name
 }
 
 
@@ -40,7 +40,7 @@ resource "google_cloud_run_v2_service" "remix" {
     volumes {
       name = "cloudsql"
       cloud_sql_instance {
-        instances = [google_sql_database_instance.remix-db.connection_name]
+        instances = [google_sql_database_instance.preview-db.connection_name]
       }
     }
     containers {
@@ -48,7 +48,7 @@ resource "google_cloud_run_v2_service" "remix" {
 
       env {
         name  = "DATABASE_URL"
-        value = "postgresql://user-${var.project_id}:${var.database_password}@localhost:5432/db-${var.project_id}?host=/cloudsql/${google_sql_database_instance.remix-db.connection_name}"
+        value = "postgresql://preview-user:${var.database_password}@localhost:5432/preview-db?host=/cloudsql/${google_sql_database_instance.preview-db.connection_name}"
       }
       resources {
         cpu_idle = true
