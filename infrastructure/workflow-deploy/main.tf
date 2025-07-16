@@ -28,7 +28,11 @@ resource "google_cloud_run_v2_service" "preview" {
     }
     containers {
       image = var.docker_image_url
-
+      startup_probe {
+        period_seconds    = 30
+        timeout_seconds   = 15
+        failure_threshold = 10
+      }
       env {
         name  = "DATABASE_URL"
         value = "postgresql://previewuser:${var.database_password}@localhost:5432/previewdb?host=/cloudsql/justinas:europe-west1:postgres-db"
