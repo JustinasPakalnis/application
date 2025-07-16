@@ -1,14 +1,13 @@
 name: Deploy PR Preview
 
 on:
-  workflow_run:
-    workflows: ["Build multiplatform image"]
-    types:
-      - completed
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
 
 jobs:
   deploy:
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
 
     steps:
@@ -34,7 +33,7 @@ jobs:
           cd infrastructure/deploy
           terraform init
           terraform apply -auto-approve \
-            -var="docker_image_url=${{ vars.DOCKERHUB_USERNAME }}/application:pr-${{ github.event.pull_request.number }}"
+            -var="docker_image_url=${{ vars.DOCKERHUB_USERNAME }}/application:pr-6"
             -var="region=europe-west1"
             -var="project_id=deploy-pr-${{ github.event.pull_request.number }}"
             -var="database_password=testing"
