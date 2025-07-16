@@ -7,7 +7,6 @@ on:
 jobs:
   destroy:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -24,10 +23,13 @@ jobs:
           terraform_version: 1.6.6
 
       - name: Debug event payload
-        run: echo '${{ github.event.pull_request.number }}'
-
-      - name: Debug event payload sdfs
-        run: echo '${{ github.event.pull_request }}'
+        run: |
+          echo "PR number: ${{ github.event.pull_request.number }}"
+          echo "PR title: ${{ github.event.pull_request.title }}"
+          echo "PR body: ${{ github.event.pull_request.body }}"
+          echo "PR state: ${{ github.event.pull_request.state }}"
+          echo "PR merged: ${{ github.event.pull_request.merged }}"
+          echo "PR merged at: ${{ github.event.pull_request.merged_at }}"
 
       - name: Destroy Preview Infrastructure
         run: |
