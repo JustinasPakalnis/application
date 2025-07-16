@@ -1,8 +1,10 @@
 name: Deploy PR Preview
 
 on:
-  pull_request:
-    types: [opened, synchronize, reopened]
+  workflow_run:
+    workflows: ["multiplatform-image"]
+    types:
+      - completed
 
 jobs:
   deploy:

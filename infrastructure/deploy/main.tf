@@ -21,19 +21,19 @@ resource "google_sql_database_instance" "remix-db" {
 }
 
 resource "google_sql_user" "app_user" {
-  name     = "remixuser"
+  name     = "user-${var.project_id}"
   instance = google_sql_database_instance.remix-db.name
   password = var.database_password
 }
 
 resource "google_sql_database" "app_db" {
-  name     = var.project_id
+  name     = "db-${var.project_id}"
   instance = google_sql_database_instance.remix-db.name
 }
 
 
 resource "google_cloud_run_v2_service" "remix" {
-  name     = var.project_id
+  name     = "app-${var.project_id}"
   location = var.region
 
   template {
@@ -48,7 +48,7 @@ resource "google_cloud_run_v2_service" "remix" {
 
       env {
         name  = "DATABASE_URL"
-        value = "postgresql://remixuser:${var.database_password}@localhost:5432/remixdb?host=/cloudsql/${google_sql_database_instance.remix-db.connection_name}"
+        value = "postgresql://user-${var.project_id}:${var.database_password}@localhost:5432/db-${var.project_id}?host=/cloudsql/${google_sql_database_instance.remix-db.connection_name}"
       }
       resources {
         cpu_idle = true
