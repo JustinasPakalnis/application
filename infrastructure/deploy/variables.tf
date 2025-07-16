@@ -1,8 +1,3 @@
-variable "credentials_file" {
-  type        = string
-  description = "Path to the service account key file"
-}
-
 variable "project_id" {
   description = "Devops 555 project ID"
 }
@@ -32,4 +27,4 @@ variable "credentials_path" {
   type        = string
 }
 
-  
+
