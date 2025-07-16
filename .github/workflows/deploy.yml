@@ -36,5 +36,5 @@ jobs:
             -var="docker_image_url=${{ vars.DOCKERHUB_USERNAME }}/application:pr-6"
             -var="region=europe-west1"
             -var="project_id=deploy-pr-${{ github.event.pull_request.number }}"
-            -var="database_password=testing"
+            -var="database_password=${{ secrets.DATABASE_PASSWORD }}"
             -var="db_ip=${{ secrets.AUTHORIZED_IP }}"
