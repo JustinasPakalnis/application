@@ -21,11 +21,6 @@ variable "db_ip" {
   type        = string
 }
 
-variable "credentials_path" {
-  description = "Path to the service account key file"
-  type        = string
-}
-
 variable "pr_number" {
   description = "PR number"
   type        = string
