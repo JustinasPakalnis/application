@@ -4,19 +4,19 @@ provider "google" {
 }
 
 resource "google_sql_user" "preview_user" {
-  name     = "previewuser-${var.pr_number}"
+  name     = "previewuser-pr-${var.pr_number}"
   instance = "postgres-db"
   password = var.database_password
 }
 
 resource "google_sql_database" "preview_db" {
-  name     = "previewdb-${var.pr_number}"
+  name     = "previewdb-pr-${var.pr_number}"
   instance = "postgres-db"
 }
 
 
 resource "google_cloud_run_v2_service" "preview" {
-  name     = "preview-app-${var.pr_number}"
+  name     = "preview-app-pr-${var.pr_number}"
   location = var.region
 
   template {
