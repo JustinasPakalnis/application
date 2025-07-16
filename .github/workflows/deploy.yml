@@ -25,7 +25,7 @@ jobs:
 
       - name: Terraform Init & Apply
         run: |
-          cd infrastructure/
+          cd infrastructure/deploy
           terraform init
           terraform apply -auto-approve \
             -var="docker_image_url=${{ vars.DOCKERHUB_USERNAME }}/application:pr-${{ github.event.pull_request.number }}"
