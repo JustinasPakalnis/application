@@ -23,6 +23,12 @@ jobs:
         with:
           terraform_version: 1.6.6
 
+      - name: Debug event payload
+        run: echo '${{ github.event.pull_request.number }}'
+
+      - name: Debug event payload sdfs
+        run: echo '${{ github.event.pull_request }}'
+
       - name: Destroy Preview Infrastructure
         run: |
           cd infrastructure/workflow-deploy
