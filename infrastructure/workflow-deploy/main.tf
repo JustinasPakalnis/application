@@ -4,13 +4,13 @@ provider "google" {
 }
 
 resource "google_sql_user" "preview_user" {
-  name     = "previewuser-pr-${var.pr_number}"
+  name     = "previewuser-${var.pr_number}"
   instance = "postgres-db"
   password = var.database_password
 }
 
 resource "google_sql_database" "preview_db" {
-  name     = "previewdb-pr-${var.pr_number}"
+  name     = "previewdb-${var.pr_number}"
   instance = "postgres-db"
 }
 resource "google_cloud_run_v2_service" "preview" {
@@ -28,7 +28,7 @@ resource "google_cloud_run_v2_service" "preview" {
       image = var.docker_image_url
       env {
         name  = "DATABASE_URL"
-        value = "postgresql://previewuser-pr-${var.pr_number}:${var.database_password}@localhost:5432/previewdb-pr-${var.pr_number}?host=/cloudsql/justinas:europe-west1:postgres-db"
+        value = "postgresql://previewuser-${var.pr_number}:${var.database_password}@localhost:5432/previewdb-${var.pr_number}?host=/cloudsql/justinas:europe-west1:postgres-db"
       }
       resources {
         cpu_idle = true
