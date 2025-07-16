@@ -40,7 +40,7 @@ jobs:
 
           echo "📦 Running terraform plan"
           terraform plan -input=false \
-            -var="docker_image_url=${{ vars.DOCKERHUB_USERNAME }}/application:pr-${{ github.event.pull_request.number }}" \
+            -var="docker_image_url=${{ vars.DOCKERHUB_USERNAME }}/application:pr-6" \
             -var="region=europe-west1" \
             -var="project_id=deploy-pr-${{ github.event.pull_request.number }}" \
             -var="database_password=${{ secrets.DATABASE_PASSWORD }}" \
@@ -48,7 +48,7 @@ jobs:
 
           echo "🚀 Applying Terraform"
           terraform apply -auto-approve -input=false \
-            -var="docker_image_url=${{ vars.DOCKERHUB_USERNAME }}/application:pr-${{ github.event.pull_request.number }}" \
+            -var="docker_image_url=${{ vars.DOCKERHUB_USERNAME }}/application:pr-6" \
             -var="region=europe-west1" \
             -var="project_id=deploy-pr-${{ github.event.pull_request.number }}" \
             -var="database_password=${{ secrets.DATABASE_PASSWORD }}" \
