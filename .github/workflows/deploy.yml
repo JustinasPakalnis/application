@@ -26,6 +26,7 @@ jobs:
           terraform_version: 1.6.6
 
       - name: Terraform Init & Apply
+        id: terraform
         run: |
           cd infrastructure/workflow-deploy
           echo "🔧 Starting Terraform init"
@@ -46,3 +47,13 @@ jobs:
             -var="database_password=${{ secrets.DATABASE_PASSWORD }}" \
             -var="db_ip=${{ secrets.AUTHORIZED_IP }}" \
             -var="pr_number=${{ github.event.pull_request.number }}"
+          echo "preview_url=$(terraform output -raw cloud_run_url)" >> $GITHUB_OUTPUT
+
+      - name: Comment with Preview Link
+        # if: github.event_name == 'pull_request'
+        uses: peter-evans/create-or-update-comment@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          issue-number: ${{ github.event.pull_request.number }}
+          body: |
+            ✅ Preview deployed: [Click to view](${{ steps.terraform.outputs.preview_url }})
