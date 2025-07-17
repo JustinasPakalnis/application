@@ -36,20 +36,14 @@ jobs:
           cd infrastructure/workflow-deploy
           terraform init
           echo "📦 Running terraform plan"
-          terraform plan -input=false \
-            -var="docker_image_url=justinaspakalnis/application:pr-6" \
-            -var="region=europe-west1" \
-            -var="database_password=${{ secrets.DATABASE_PASSWORD }}" \
-            -var="db_ip=${{ secrets.AUTHORIZED_IP }}" \
-            -var="pr_number=${{ github.event.pull_request.number }}" \
-            -var="project_id=justinas"
-          terraform apply -auto-approve -input=false \
-            -var="docker_image_url=justinaspakalnis/application:pr-6" \
-            -var="region=europe-west1" \
-            -var="database_password=${{ secrets.DATABASE_PASSWORD }}" \
-            -var="db_ip=${{ secrets.AUTHORIZED_IP }}" \
-            -var="pr_number=${{ github.event.pull_request.number }}" \
-            -var="project_id=justinas"
+          # terraform plan -input=false \
+          #   -var="docker_image_url=justinaspakalnis/application:pr-6" \
+          #   -var="region=europe-west1" \
+          #   -var="database_password=${{ secrets.DATABASE_PASSWORD }}" \
+          #   -var="db_ip=${{ secrets.AUTHORIZED_IP }}" \
+          #   -var="pr_number=${{ github.event.pull_request.number }}" \
+          #   -var="project_id=justinas"
+
           terraform destroy -auto-approve -input=false \
             -var="docker_image_url=justinaspakalnis/application:pr-6" \
             -var="region=europe-west1" \
