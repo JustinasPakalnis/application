@@ -21,10 +21,6 @@ variable "db_ip" {
   type        = string
 }
 
-variable "credentials" {
-  description = "GCP credentials"
-  type        = string
-}
 
 variable "pr_number" {
   description = "PR number"

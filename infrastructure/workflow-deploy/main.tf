@@ -1,7 +1,6 @@
 provider "google" {
-  credentials = file(var.credentials)
-  project     = var.project_id
-  region      = "europe-west1"
+  project = var.project_id
+  region  = "europe-west1"
 }
 resource "google_sql_user" "preview_user" {
   name     = "previewuser-${var.pr_number}"
