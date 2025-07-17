@@ -1,6 +1,7 @@
 provider "google" {
-  project = var.project_id
-  region  = "europe-west1"
+  credentials = file(var.credentials)
+  project     = var.project_id
+  region      = "europe-west1"
 }
 resource "google_sql_user" "preview_user" {
   name     = "previewuser-${var.pr_number}"
@@ -38,6 +39,12 @@ resource "google_cloud_run_v2_service" "preview" {
   traffic {
     percent = 100
     type    = "TRAFFIC_TARGET_ALLOCATION_TYPE_LATEST"
+  }
+}
+terraform {
+  backend "gcs" {
+    bucket = "justinas-tf-state"
+    prefix = "env/pr-${var.pr_number}"
   }
 }
 
