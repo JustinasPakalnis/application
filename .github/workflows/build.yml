@@ -76,7 +76,6 @@ jobs:
           echo "🔧 Starting Terraform init"
           terraform init
           echo "📦 Running terraform plan"
-
           terraform plan -input=false \
             -var="docker_image_url=justinaspakalnis/application:pr-${{ github.event.pull_request.number }}" \
             -var="region=europe-west1" \
