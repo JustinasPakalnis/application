@@ -41,7 +41,16 @@ jobs:
           project_id       = "justinas"
           EOF
 
+          echo "📄 terraform.tfvars contents:"
+          cat terraform.tfvars
+
+          echo "📦 Running terraform init"
           terraform init
+
+          echo "📦 Running terraform plan"
+          terraform plan -input=false \
+            -var-file="terraform.tfvars"
+
           echo "📦 Running terraform destroy"
           terraform destroy -auto-approve -input=false \
             -var-file="terraform.tfvars"
