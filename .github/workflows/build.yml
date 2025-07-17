@@ -110,3 +110,9 @@ jobs:
           issue-number: ${{ github.event.pull_request.number }}
           body: |
             ✅ Preview deployed: [Click to view](${{ steps.terraform.outputs.preview_url }})
+
+      - name: Upload folder as artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: terraform-${{ github.event.pull_request.number }}
+          path: infrastructure/workflow-deploy

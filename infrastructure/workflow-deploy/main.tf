@@ -21,7 +21,7 @@ resource "google_cloud_run_v2_service" "preview" {
       name = "cloudsql"
       cloud_sql_instance {
         instances = ["justinas:europe-west1:postgres-db"]
-      }
+      }wip
     }
     containers {
       image = var.docker_image_url
