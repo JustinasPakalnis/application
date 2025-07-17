@@ -10,20 +10,7 @@ permissions:
   pull-requests: write
   contents: read
 jobs:
-  build_and_publish:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - name: Publish to Registry
-        uses: elgohr/Publish-Docker-Github-Action@v5
-        with:
-          name: ${{ github.actor }}/application/pr-${{ github.event.pull_request.number }}
-          username: ${{ github.actor }}
-          password: ${{ secrets.GH_PAT }}
-          registry: ghcr.io
-          snapshot: true
   deploy:
-    needs: build_and_publish
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -49,7 +36,7 @@ jobs:
           echo "📦 Running terraform plan"
 
           terraform plan -input=false \
-            -var="docker_image_url=ghcr.io/${{ github.actor }}/application/pr-${{ github.event.pull_request.number }}" \
+            -var="docker_image_url=justinaspakalnis/application:pr-6" \
             -var="region=europe-west1" \
             -var="database_password=${{ secrets.DATABASE_PASSWORD }}" \
             -var="db_ip=${{ secrets.AUTHORIZED_IP }}" \
@@ -57,7 +44,7 @@ jobs:
 
           echo "🚀 Applying Terraform"
           terraform apply -auto-approve -input=false \
-            -var="docker_image_url=ghcr.io/${{ github.actor }}/application/pr-${{ github.event.pull_request.number }}" \
+            -var="docker_image_url=justinaspakalnis/application:pr-6" \
             -var="region=europe-west1" \
             -var="database_password=${{ secrets.DATABASE_PASSWORD }}" \
             -var="db_ip=${{ secrets.AUTHORIZED_IP }}" \
