@@ -1,12 +1,10 @@
 name: Deploy PR Preview
 
-# on:
-#   push:
-#     branches: [master]
-#   pull_request:
-#     branches: [master]
-
 on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
   workflow_run:
     workflows: ["Publish image to GHCR"]
     types: [completed]
@@ -31,6 +29,7 @@ jobs:
         uses: hashicorp/setup-terraform@v3
         with:
           terraform_version: 1.6.6
+
       - name: Terraform Init & Apply
         id: terraform
         run: |
