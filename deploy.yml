@@ -1,15 +1,10 @@
 name: Deploy PR Preview
 
-# on:
-#   push:
-#     branches: [master]
-#   pull_request:
-#     branches: [master]
-
 on:
-  workflow_run:
-    workflows: ["Publish image to GHCR"]
-    types: [completed]
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
 
 permissions:
   pull-requests: write
@@ -39,6 +34,7 @@ jobs:
           echo "🔧 Starting Terraform init"
           terraform init
           echo "📦 Running terraform plan"
+
           terraform plan -input=false \
             -var="docker_image_url=justinaspakalnis/application:pr-6" \
             -var="region=europe-west1" \
