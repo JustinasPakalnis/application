@@ -23,6 +23,7 @@ jobs:
           registry: ghcr.io
           snapshot: true
   deploy:
+    needs: build_and_publish
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
