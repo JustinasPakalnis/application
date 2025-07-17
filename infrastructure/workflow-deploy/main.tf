@@ -41,12 +41,6 @@ resource "google_cloud_run_v2_service" "preview" {
     type    = "TRAFFIC_TARGET_ALLOCATION_TYPE_LATEST"
   }
 }
-terraform {
-  backend "gcs" {
-    bucket = "justinas-tf-state"
-    prefix = "env/preview"
-  }
-}
 
 data "google_cloud_run_v2_service" "preview" {
   name     = google_cloud_run_v2_service.preview.name
