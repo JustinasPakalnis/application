@@ -27,6 +27,12 @@ jobs:
           echo "PR number: ${{ github.event.pull_request.number }}"
           echo "PR title: ${{ github.event.pull_request.title }}"
 
+      - name: Download folder artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: terraform-${{ github.event.pull_request.number }}
+          path: infrastructure/workflow-deploy
+
       - name: Destroy Preview Infrastructure
         run: |
           cd infrastructure/workflow-deploy
@@ -41,7 +47,16 @@ jobs:
           project_id       = "justinas"
           EOF
 
+          echo "📄 terraform.tfvars contents:"
+          cat terraform.tfvars
+
+          echo "📦 Running terraform init"
           terraform init
+
+          echo "📦 Running terraform plan"
+          terraform plan -input=false \
+            -var-file="terraform.tfvars"
+
           echo "📦 Running terraform destroy"
           terraform destroy -auto-approve -input=false \
             -var-file="terraform.tfvars"
