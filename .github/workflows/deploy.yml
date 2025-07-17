@@ -31,7 +31,6 @@ jobs:
         uses: hashicorp/setup-terraform@v3
         with:
           terraform_version: 1.6.6
-
       - name: Terraform Init & Apply
         id: terraform
         run: |
