@@ -1,10 +1,16 @@
 name: Deploy PR Preview
 
+# on:
+#   push:
+#     branches: [master]
+#   pull_request:
+#     branches: [master]
+
 on:
-  push:
-    branches: [master]
-  pull_request:
-    branches: [master]
+  workflow_run:
+    workflows: ["Publish image to GHCR"]
+    types: [completed]
+
 permissions:
   pull-requests: write
   contents: read
