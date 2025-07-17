@@ -44,7 +44,7 @@ resource "google_cloud_run_v2_service" "preview" {
 terraform {
   backend "gcs" {
     bucket = "justinas-tf-state"
-    prefix = "env/pr-${var.pr_number}"
+    prefix = "env/preview"
   }
 }
 

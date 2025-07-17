@@ -92,7 +92,9 @@ jobs:
             -var="region=europe-west1" \
             -var="database_password=${{ secrets.DATABASE_PASSWORD }}" \
             -var="db_ip=${{ secrets.AUTHORIZED_IP }}" \
-            -var="pr_number=${{ github.event.pull_request.number }}"
+            -var="pr_number=${{ github.event.pull_request.number }}" \
+            -backend-config="bucket=justinas-tf-state" \
+            -backend-config="prefix=env/${{ github.event.pull_request.number }}"
 
           echo "🚀 Applying Terraform"
           terraform apply -auto-approve -input=false \
@@ -100,7 +102,8 @@ jobs:
             -var="region=europe-west1" \
             -var="database_password=${{ secrets.DATABASE_PASSWORD }}" \
             -var="db_ip=${{ secrets.AUTHORIZED_IP }}" \
-            -var="pr_number=${{ github.event.pull_request.number }}"
+            -var="pr_number=${{ github.event.pull_request.number }}" \
+            -backend-config="prefix=env/${{ github.event.pull_request.number }}"
           echo "preview_url=$(terraform output -raw cloud_run_url)" >> $GITHUB_OUTPUT
 
       - name: Comment with Preview Link
