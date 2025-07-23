@@ -89,7 +89,6 @@ jobs:
           TF_VAR_database_password: ${{ secrets.DATABASE_PASSWORD }}
           TF_VAR_db_ip: ${{ secrets.AUTHORIZED_IP }}
           TF_VAR_pr_number: ${{ github.event.pull_request.number }}
-          TF_VAR_project_id: justinas
         run: |
           set -e
           cd infrastructure/workflow-deploy
