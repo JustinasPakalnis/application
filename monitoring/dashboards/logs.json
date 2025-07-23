@@ -1,0 +1,506 @@
+{
+	"annotations": {
+		"list": [
+			{
+				"builtIn": 1,
+				"datasource": {
+					"type": "datasource",
+					"uid": "grafana"
+				},
+				"enable": true,
+				"hide": true,
+				"iconColor": "rgba(0, 211, 255, 1)",
+				"name": "Annotations & Alerts",
+				"type": "dashboard"
+			}
+		]
+	},
+	"description": "",
+	"editable": true,
+	"fiscalYearStartMonth": 0,
+	"gnetId": 10619,
+	"graphTooltip": 1,
+	"links": [],
+	"panels": [
+		{
+			"datasource": {
+				"type": "loki",
+				"uid": "${datasource}"
+			},
+			"fieldConfig": {
+				"defaults": {
+					"color": {
+						"mode": "palette-classic"
+					},
+					"custom": {
+						"axisBorderShow": false,
+						"axisCenteredZero": false,
+						"axisColorMode": "text",
+						"axisLabel": "",
+						"axisPlacement": "auto",
+						"barAlignment": 0,
+						"drawStyle": "bars",
+						"fillOpacity": 100,
+						"gradientMode": "none",
+						"hideFrom": {
+							"legend": false,
+							"tooltip": false,
+							"viz": false
+						},
+						"insertNulls": false,
+						"lineInterpolation": "linear",
+						"lineWidth": 2,
+						"pointSize": 5,
+						"scaleDistribution": {
+							"type": "linear"
+						},
+						"showPoints": "auto",
+						"spanNulls": false,
+						"stacking": {
+							"group": "A",
+							"mode": "none"
+						},
+						"thresholdsStyle": {
+							"mode": "off"
+						}
+					},
+					"mappings": [],
+					"thresholds": {
+						"mode": "absolute",
+						"steps": [
+							{
+								"color": "green",
+								"value": null
+							}
+						]
+					}
+				},
+				"overrides": []
+			},
+			"gridPos": {
+				"h": 5,
+				"w": 24,
+				"x": 0,
+				"y": 0
+			},
+			"id": 40,
+			"maxDataPoints": 200,
+			"options": {
+				"legend": {
+					"calcs": ["sum"],
+					"displayMode": "table",
+					"placement": "right",
+					"showLegend": true,
+					"sortBy": "Total",
+					"sortDesc": true
+				},
+				"tooltip": {
+					"mode": "multi",
+					"sort": "desc"
+				}
+			},
+			"targets": [
+				{
+					"datasource": {
+						"type": "loki",
+						"uid": "${datasource}"
+					},
+					"editorMode": "code",
+					"expr": "count_over_time({container=~\"^(simbuka).*\"}[$__interval])",
+					"hide": false,
+					"legendFormat": "{{container}}",
+					"queryType": "range",
+					"refId": "B"
+				}
+			],
+			"type": "timeseries"
+		},
+		{
+			"collapsed": false,
+			"gridPos": {
+				"h": 1,
+				"w": 24,
+				"x": 0,
+				"y": 5
+			},
+			"id": 33,
+			"panels": [],
+			"title": "Simbuka Logs",
+			"type": "row"
+		},
+		{
+			"datasource": {
+				"type": "loki",
+				"uid": "${datasource}"
+			},
+			"gridPos": {
+				"h": 17,
+				"w": 24,
+				"x": 0,
+				"y": 6
+			},
+			"id": 24,
+			"options": {
+				"dedupStrategy": "none",
+				"enableLogDetails": false,
+				"prettifyLogMessage": false,
+				"showCommonLabels": false,
+				"showLabels": false,
+				"showTime": true,
+				"sortOrder": "Descending",
+				"wrapLogMessage": true
+			},
+			"targets": [
+				{
+					"datasource": {
+						"type": "loki",
+						"uid": "${datasource}"
+					},
+					"editorMode": "code",
+					"expr": "{container=~\"^(simbuka-simbuka|kopabata-kopabata).*\"} != \"/readiness\" |~ \"(?i)$Query\"",
+					"maxLines": 5000,
+					"queryType": "range",
+					"refId": "A"
+				}
+			],
+			"title": "Simbuka",
+			"type": "logs"
+		},
+		{
+			"collapsed": true,
+			"gridPos": {
+				"h": 1,
+				"w": 24,
+				"x": 0,
+				"y": 23
+			},
+			"id": 39,
+			"panels": [
+				{
+					"datasource": {
+						"type": "loki",
+						"uid": "${datasource}"
+					},
+					"gridPos": {
+						"h": 17,
+						"w": 24,
+						"x": 0,
+						"y": 24
+					},
+					"id": 38,
+					"options": {
+						"dedupStrategy": "none",
+						"enableLogDetails": false,
+						"prettifyLogMessage": false,
+						"showCommonLabels": false,
+						"showLabels": false,
+						"showTime": true,
+						"sortOrder": "Descending",
+						"wrapLogMessage": true
+					},
+					"targets": [
+						{
+							"datasource": {
+								"type": "loki",
+								"uid": "${datasource}"
+							},
+							"editorMode": "code",
+							"expr": "{container=~\"^(.*-migrations).*\"}",
+							"queryType": "range",
+							"refId": "A"
+						}
+					],
+					"title": "Simbuka Migrations",
+					"type": "logs"
+				}
+			],
+			"title": "Simbuka Migrations",
+			"type": "row"
+		},
+		{
+			"collapsed": true,
+			"gridPos": {
+				"h": 1,
+				"w": 24,
+				"x": 0,
+				"y": 24
+			},
+			"id": 37,
+			"panels": [
+				{
+					"datasource": {
+						"type": "loki",
+						"uid": "${datasource}"
+					},
+					"gridPos": {
+						"h": 18,
+						"w": 24,
+						"x": 0,
+						"y": 25
+					},
+					"id": 36,
+					"options": {
+						"dedupStrategy": "none",
+						"enableLogDetails": false,
+						"prettifyLogMessage": true,
+						"showCommonLabels": false,
+						"showLabels": false,
+						"showTime": true,
+						"sortOrder": "Descending",
+						"wrapLogMessage": true
+					},
+					"targets": [
+						{
+							"datasource": {
+								"type": "loki",
+								"uid": "${datasource}"
+							},
+							"editorMode": "code",
+							"expr": "{container=~\"^(simbuka-proxy).*\"}",
+							"queryType": "range",
+							"refId": "A"
+						}
+					],
+					"title": "Proxy",
+					"type": "logs"
+				}
+			],
+			"title": "Proxy Logs",
+			"type": "row"
+		},
+		{
+			"collapsed": true,
+			"gridPos": {
+				"h": 1,
+				"w": 24,
+				"x": 0,
+				"y": 25
+			},
+			"id": 34,
+			"panels": [
+				{
+					"datasource": {
+						"type": "loki",
+						"uid": "${datasource}"
+					},
+					"gridPos": {
+						"h": 17,
+						"w": 24,
+						"x": 0,
+						"y": 9
+					},
+					"id": 35,
+					"options": {
+						"dedupStrategy": "none",
+						"enableLogDetails": true,
+						"prettifyLogMessage": false,
+						"showCommonLabels": false,
+						"showLabels": true,
+						"showTime": true,
+						"sortOrder": "Descending",
+						"wrapLogMessage": true
+					},
+					"targets": [
+						{
+							"datasource": {
+								"type": "loki",
+								"uid": "${datasource}"
+							},
+							"editorMode": "code",
+							"expr": "{container=~\".+\",container!~\"^(monitoring|simbuka-simbuka|kopabata-kopabata|simbuka-proxy|simbuka-database-viewer|simbuka-cache-viewer|simbuka-migrations).*\"} |~ \"(?i)$Query\"",
+							"queryType": "range",
+							"refId": "A"
+						}
+					],
+					"title": "Supporting Containers",
+					"type": "logs"
+				}
+			],
+			"title": "Supporting Container Logs",
+			"type": "row"
+		},
+		{
+			"collapsed": true,
+			"gridPos": {
+				"h": 1,
+				"w": 24,
+				"x": 0,
+				"y": 26
+			},
+			"id": 27,
+			"panels": [
+				{
+					"datasource": {
+						"type": "loki",
+						"uid": "${datasource}"
+					},
+					"gridPos": {
+						"h": 14,
+						"w": 24,
+						"x": 0,
+						"y": 10
+					},
+					"id": 25,
+					"options": {
+						"dedupStrategy": "none",
+						"enableLogDetails": true,
+						"prettifyLogMessage": false,
+						"showCommonLabels": false,
+						"showLabels": true,
+						"showTime": true,
+						"sortOrder": "Descending",
+						"wrapLogMessage": true
+					},
+					"targets": [
+						{
+							"datasource": {
+								"type": "loki",
+								"uid": "${datasource}"
+							},
+							"editorMode": "code",
+							"expr": "{container=~\".+\"} |~ \"(?i)$Query\"",
+							"queryType": "range",
+							"refId": "A"
+						}
+					],
+					"title": "All Logs",
+					"type": "logs"
+				}
+			],
+			"title": "All Logs",
+			"type": "row"
+		},
+		{
+			"collapsed": true,
+			"gridPos": {
+				"h": 1,
+				"w": 24,
+				"x": 0,
+				"y": 27
+			},
+			"id": 31,
+			"panels": [
+				{
+					"datasource": {
+						"type": "loki",
+						"uid": "${datasource}"
+					},
+					"gridPos": {
+						"h": 17,
+						"w": 24,
+						"x": 0,
+						"y": 31
+					},
+					"id": 23,
+					"options": {
+						"dedupStrategy": "none",
+						"enableLogDetails": true,
+						"prettifyLogMessage": false,
+						"showCommonLabels": false,
+						"showLabels": true,
+						"showTime": true,
+						"sortOrder": "Descending",
+						"wrapLogMessage": true
+					},
+					"targets": [
+						{
+							"datasource": {
+								"type": "loki",
+								"uid": "${datasource}"
+							},
+							"editorMode": "code",
+							"expr": "{container=~\"^monitoring.*\"}",
+							"queryType": "range",
+							"refId": "A"
+						}
+					],
+					"title": "Monitoring",
+					"type": "logs"
+				}
+			],
+			"title": "Monitoring Logs",
+			"type": "row"
+		}
+	],
+	"refresh": "1m",
+	"schemaVersion": 39,
+	"tags": [],
+	"templating": {
+		"list": [
+			{
+				"current": {
+					"selected": true,
+					"text": "loki",
+					"value": "loki"
+				},
+				"hide": 0,
+				"includeAll": false,
+				"label": "Datasource",
+				"multi": false,
+				"name": "datasource",
+				"options": [],
+				"query": "loki",
+				"queryValue": "",
+				"refresh": 1,
+				"regex": "",
+				"skipUrlSync": false,
+				"type": "datasource"
+			},
+			{
+				"current": {
+					"selected": false,
+					"text": "",
+					"value": ""
+				},
+				"description": "",
+				"hide": 0,
+				"label": "",
+				"name": "Query",
+				"options": [
+					{
+						"selected": true,
+						"text": "",
+						"value": ""
+					}
+				],
+				"query": "",
+				"skipUrlSync": false,
+				"type": "textbox"
+			}
+		]
+	},
+	"time": {
+		"from": "now-3h",
+		"to": "now"
+	},
+	"timepicker": {
+		"refresh_intervals": [
+			"5s",
+			"10s",
+			"30s",
+			"1m",
+			"5m",
+			"15m",
+			"30m",
+			"1h",
+			"2h",
+			"1d"
+		],
+		"time_options": [
+			"5m",
+			"15m",
+			"1h",
+			"6h",
+			"12h",
+			"24h",
+			"2d",
+			"7d",
+			"30d"
+		]
+	},
+	"timezone": "browser",
+	"title": "Logs",
+	"uid": "logs",
+	"version": 1,
+	"weekStart": ""
+}

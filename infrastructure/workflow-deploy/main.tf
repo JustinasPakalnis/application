@@ -29,6 +29,7 @@ resource "google_cloud_run_v2_service" "preview" {
         name  = "DATABASE_URL"
         value = "postgresql://previewuser-${var.pr_number}:${var.database_password}@localhost:5432/previewdb-${var.pr_number}?host=/cloudsql/justinas:europe-west1:postgres-db"
       }
+
       resources {
         cpu_idle = true
       }
