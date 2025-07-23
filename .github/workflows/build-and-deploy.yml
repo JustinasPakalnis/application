@@ -93,16 +93,12 @@ jobs:
           set -e
           cd infrastructure/workflow-deploy
 
-          echo "🔧 Initializing Terraform..."
           terraform init
 
-          echo "📦 Running terraform plan"
           terraform plan -input=false
 
-          echo "🚀 Applying Terraform"
           terraform apply -auto-approve -input=false
 
-          echo "🔗 Fetching preview URL"
           preview_url=$(terraform output -raw cloud_run_url)
           echo "preview_url=$preview_url" >> $GITHUB_OUTPUT
 
@@ -112,4 +108,4 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           issue-number: ${{ github.event.pull_request.number }}
           body: |
-            ✅ Preview deployed: [Click to view](${{ steps.terraform.outputs.preview_url }})
+            Preview deployed: [Click to view](${{ steps.terraform.outputs.preview_url }})
