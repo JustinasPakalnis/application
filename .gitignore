@@ -3,7 +3,8 @@ node_modules
 /.cache
 /build
 .env
-*.json
+key.json
+key2.json
 /generated/prisma
 /data
 .terraform/
