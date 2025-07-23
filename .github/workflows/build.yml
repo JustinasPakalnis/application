@@ -85,7 +85,6 @@ jobs:
         run: |
           cd infrastructure/workflow-deploy
           echo "🔧 Starting Terraform init"
-
           echo "📄 Writing temporary tfvars file"
           cat <<EOF > terraform.tfvars
           docker_image_url = "justinaspakalnis/application:pr-${{ github.event.pull_request.number }}"
@@ -97,10 +96,23 @@ jobs:
           EOF
           terraform init
           echo "📦 Running terraform plan"
-          terraform plan -input=false -var-file="terraform.tfvars"
+          terraform plan -input=false \
+            -var="docker_image_url=justinaspakalnis/application:pr-${{ github.event.pull_request.number }}" \
+            -var="region=europe-west1" \
+            -var="database_password=${{ secrets.DATABASE_PASSWORD }}" \
+            -var="db_ip=${{ secrets.AUTHORIZED_IP }}" \
+            -var="pr_number=${{ github.event.pull_request.number }}" \
+            -backend-config="bucket=justinas-tf-state" \
+            -backend-config="prefix=env/${{ github.event.pull_request.number }}"
 
           echo "🚀 Applying Terraform"
-          terraform apply -auto-approve -input=false -var-file="terraform.tfvars"
+          terraform apply -auto-approve -input=false \
+            -var="docker_image_url=justinaspakalnis/application:pr-${{ github.event.pull_request.number }}" \
+            -var="region=europe-west1" \
+            -var="database_password=${{ secrets.DATABASE_PASSWORD }}" \
+            -var="db_ip=${{ secrets.AUTHORIZED_IP }}" \
+            -var="pr_number=${{ github.event.pull_request.number }}" \
+            -backend-config="prefix=env/${{ github.event.pull_request.number }}"
           echo "preview_url=$(terraform output -raw cloud_run_url)" >> $GITHUB_OUTPUT
 
       - name: Comment with Preview Link
@@ -110,9 +122,3 @@ jobs:
           issue-number: ${{ github.event.pull_request.number }}
           body: |
             ✅ Preview deployed: [Click to view](${{ steps.terraform.outputs.preview_url }})
-
-      - name: Upload folder as artifact
-        uses: actions/upload-artifact@v3
-        with:
-          name: terraform-${{ github.event.pull_request.number }}
-          path: infrastructure/workflow-deploy
